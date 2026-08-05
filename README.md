@@ -83,11 +83,11 @@ las calificaciones de un empleado entre dos fechas).
 
 ## Reparto del trabajo
 
-| Integrante | Módulo | Tablas |
-|---|---|---|
-| Mora Eduardo | Comercial | Cliente, Producto, Pedido, Detalle de pedido, Factura |
-| Santana James | Producción y calidad | Empleado, Impresora, Material, Orden de impresión, Consumo de material, Fallos, Mantenimiento |
-| Santiago Herrera | Inventario y entrega | Proveedor, Entrada de material, Transportadora, Despacho, Encuesta, Solicitud, Render |
+| Integrante | Parte del proyecto |
+|---|---|
+| Santiago Herrera | Base de datos en MySQL: script de creación, tablas, llaves, restricciones y datos de prueba |
+| Santana James | Aplicación en Python: el CRUD de las 19 tablas y las consultas |
+| Mora Eduardo | Modelo entidad-relación, manual de usuario y pruebas de la aplicación |
 
 ## Otros archivos
 
