@@ -1,10 +1,11 @@
 # Estudio de Impresión 3D — Accesorios y Setups
 
-Proyecto de la materia **Sistemas de Bases de Datos** (ESPOL).
+Este es nuestro proyecto de la materia **Sistemas de Bases de Datos** de la ESPOL.
 
-Sistema para manejar los datos de un estudio de impresión 3D: clientes, pedidos,
-producción, inventario y entregas. La base está en MySQL y la aplicación está
-hecha en Python.
+Se trata de un estudio que imprime piezas en 3D y también vende filamentos,
+resinas y accesorios. Hicimos la base de datos para llevar todo eso: los
+clientes, los pedidos, las impresiones, el material que se usa y los envíos.
+La base la hicimos en MySQL y el programa que la maneja está en Python.
 
 ## Grupo 1
 
@@ -24,16 +25,19 @@ hecha en Python.
 
 **1. Crear la base de datos**
 
-En MySQL Workbench, abrir y ejecutar en este orden:
+En MySQL Workbench hay que abrir estos dos archivos y ejecutarlos en este orden:
 
 ```
 sql/avance-proyecto-sbd.sql
 sql/avance-proyecto-sbd-inserts.sql
 ```
 
-Queda creada la base `estudio3d` con 19 tablas y 190 registros (10 por tabla).
+El primero crea las 19 tablas y el segundo mete los datos. Al final queda la
+base `estudio3d` con 10 registros en cada tabla.
 
-**2. Instalar el conector de MySQL para Python** (una sola vez)
+**2. Instalar el conector de MySQL para Python**
+
+Esto se hace una sola vez:
 
 ```
 pip install mysql-connector-python
@@ -41,8 +45,8 @@ pip install mysql-connector-python
 
 **3. Poner la contraseña de MySQL**
 
-Dentro de `app/crud_estudio3d.py`, en las primeras líneas, cambiar la clave por
-la de cada quien:
+En `app/crud_estudio3d.py`, arriba de todo, está la conexión. Ahí cada quien
+pone su propia clave:
 
 ```python
 conexion = mysql.connector.connect(
@@ -61,16 +65,19 @@ python app/crud_estudio3d.py
 
 ## Qué hace la aplicación
 
-Un menú con las 19 tablas agrupadas por módulo. Al entrar en cualquiera aparecen
-las cuatro operaciones:
+Sale un menú con las 19 tablas, separadas por módulo. Uno escribe el número de
+la tabla que quiere y ahí aparecen las cuatro operaciones:
 
 ```
 1) Anadir     2) Consultar     3) Editar     4) Eliminar
 ```
 
-La opción 20 abre las consultas que cruzan varias tablas (productos por
-categoría, pedidos personalizados, quién envió un pedido, el pago de un pedido y
-las calificaciones de un empleado entre dos fechas).
+También pusimos la opción 20, que son consultas que juntan varias tablas. Por
+ejemplo se puede ver el total de un pedido con su forma de pago, o quién fue el
+que envió un pedido.
+
+El programa valida lo que uno escribe. Si se intenta guardar una clave que ya
+existe, o borrar un cliente que tiene pedidos, avisa con un mensaje y no se cae.
 
 ## Tablas que salen de una relación de muchos a muchos
 
@@ -91,5 +98,5 @@ las calificaciones de un empleado entre dos fechas).
 
 ## Otros archivos
 
-`app/app_estudio3d.py` es la aplicación del avance anterior, que solo muestra
-dos pantallas de consulta. Se deja como referencia.
+En `app/app_estudio3d.py` está la aplicación del avance pasado, la que solo
+mostraba dos pantallas de consulta. La dejamos por si acaso.
