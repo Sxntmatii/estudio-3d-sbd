@@ -1,3 +1,5 @@
+-- Encargado del SQL: Santiago Herrera
+
 create database if not exists estudio3d;
 use estudio3d;
 
