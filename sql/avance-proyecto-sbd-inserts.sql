@@ -1,6 +1,9 @@
+-- Encargado del SQL: Santiago Herrera
+
 use estudio3d;
 
 -- cliente (10)
+
 insert into CLIENTE (Cedula_ID, Nombre, Correo, Telefono) values
 ('0950000000001', 'Carlos Vera', 'cvera@mail.com', '0991110001'),
 ('0950000000002', 'Andrea Salas', 'asalas@mail.com', '0991110002'),
@@ -14,6 +17,7 @@ insert into CLIENTE (Cedula_ID, Nombre, Correo, Telefono) values
 ('0950000000010', 'Valeria Cede', 'vcede@mail.com', '0991110010');
 
 -- empleado (10)
+
 insert into EMPLEADO (ID_Empleado, Nombre, Rol, Telefono) values
 (1, 'Maria Garcia', 'Vendedor', '0981000001'),
 (2, 'Juan Soto', 'Operador', '0981000002'),
@@ -27,6 +31,7 @@ insert into EMPLEADO (ID_Empleado, Nombre, Rol, Telefono) values
 (10, 'Rene Torres', 'Calidad', '0981000010');
 
 -- proveedor (10)
+
 insert into PROVEEDOR (ID_Proveedor, Nombre, Telefono, Correo) values
 (1, 'Filamentos Andinos', '022200001', 'ventas@filandinos.com'),
 (2, 'Resin Pro EC', '022200002', 'contacto@resinpro.ec'),
@@ -40,6 +45,7 @@ insert into PROVEEDOR (ID_Proveedor, Nombre, Telefono, Correo) values
 (10, 'FDM Planet', '022200010', 'contacto@fdmplanet.com');
 
 -- transportadora (10)
+
 insert into TRANSPORTADORA (ID_Transportadora, Nombre, Telefono, Sitio_Web) values
 (1, 'Servientrega', '1800000001', 'https://www.servientrega.com'),
 (2, 'Tramaco', '1800000002', 'https://www.tramaco.com'),
@@ -53,6 +59,7 @@ insert into TRANSPORTADORA (ID_Transportadora, Nombre, Telefono, Sitio_Web) valu
 (10, 'AndesCourier', '1800000010', 'https://www.andescourier.ec');
 
 -- material (10)
+
 insert into MATERIAL (ID_Material, Tipo, Color, Unidad, Stock_Actual, Costo_Unitario) values
 (1, 'PLA', 'Rojo', 'g', 5000.00, 0.022),
 (2, 'PLA', 'Blanco', 'g', 4200.00, 0.022),
@@ -66,6 +73,7 @@ insert into MATERIAL (ID_Material, Tipo, Color, Unidad, Stock_Actual, Costo_Unit
 (10, 'PETG', 'Blanco', 'g', 2200.00, 0.027);
 
 -- producto (10)
+
 insert into PRODUCTO (Codigo_Producto, Nombre, Precio, Categoria, Tipo_Garantia, Stock) values
 ('FIL-PLA-R', 'Filamento PLA Rojo 1kg', 22.50, 'Filamento', '30 dias', 14),
 ('FIL-PLA-B', 'Filamento PLA Blanco 1kg', 22.50, 'Filamento', '30 dias', 8),
@@ -79,6 +87,7 @@ insert into PRODUCTO (Codigo_Producto, Nombre, Precio, Categoria, Tipo_Garantia,
 ('ACC-PTFE-2', 'Tubo PTFE 2m', 8.90, 'Accesorio', '90 dias', 12);
 
 -- impresora_3d (10)
+
 insert into IMPRESORA_3D (Codigo_Interno, Marca, Modelo, Tecnologia, Numero_Serie, Fecha_Compra, Estado, ID_Proveedor) values
 ('IMP-FDM-01', 'Creality', 'Ender 3 S1', 'FDM', 'SN-FDM-0001', '2024-01-15', 'Activa', 1),
 ('IMP-FDM-02', 'Prusa', 'MK4', 'FDM', 'SN-FDM-0002', '2024-02-01', 'Activa', 2),
@@ -92,6 +101,7 @@ insert into IMPRESORA_3D (Codigo_Interno, Marca, Modelo, Tecnologia, Numero_Seri
 ('IMP-FDM-07', 'Raise3D', 'E2', 'FDM', 'SN-FDM-0007', '2024-09-03', 'Activa', 10);
 
 -- pedido (10)
+
 insert into PEDIDO (Numero_Pedido, Fecha_Hora, Tipo, Estado_Actual, Fecha_Estim_Entrega, Total, Cedula_ID) values
 (1, '2026-06-01 09:15:00', 'Personalizado', 'Pendiente', '2026-06-08', 45.00, '0950000000001'),
 (2, '2026-06-02 10:20:00', 'Catalogo', 'En impresion', '2026-06-09', 52.00, '0950000000002'),
@@ -105,6 +115,7 @@ insert into PEDIDO (Numero_Pedido, Fecha_Hora, Tipo, Estado_Actual, Fecha_Estim_
 (10, '2026-06-10 18:55:00', 'Personalizado', 'Entregado', '2026-06-17', 150.00, '0950000000010');
 
 -- detalle_pedido (10)
+
 insert into DETALLE_PEDIDO (ID_Detalle, Cantidad, Precio_Unitario, Subtotal, Numero_Pedido, Codigo_Producto) values
 (1, 2, 22.50, 45.00, 1, 'FIL-PLA-R'),
 (2, 2, 26.00, 52.00, 2, 'FIL-PET-N'),
@@ -118,6 +129,7 @@ insert into DETALLE_PEDIDO (ID_Detalle, Cantidad, Precio_Unitario, Subtotal, Num
 (10, 2, 75.00, 150.00, 10, 'RES-GRY-1');
 
 -- factura (10)
+
 insert into FACTURA (Numero_Factura, Fecha_Emision, Total, Estado_Pago, Forma_Pago, Fecha_Pago, Numero_Pedido) values
 (1, '2026-06-01', 45.00, 'Pagado', 'Tarjeta', '2026-06-01', 1),
 (2, '2026-06-02', 52.00, 'Pendiente', null, null, 2),
@@ -131,6 +143,7 @@ insert into FACTURA (Numero_Factura, Fecha_Emision, Total, Estado_Pago, Forma_Pa
 (10, '2026-06-10', 150.00, 'Pendiente', null, null, 10);
 
 -- solicitud_impresion (10)
+
 insert into SOLICITUD_IMPRESION (ID_Solicitud, Descripcion, Referencias_Visuales, Color, Escala, Fecha_Solicitud, Numero_Pedido, ID_Material) values
 (1, 'Llaveros corporativos', 'ref_llavero_01.png', 'Rojo', 1.00, '2026-06-01', 1, 1),
 (2, 'Prototipo carcasa', 'ref_carcasa_02.png', 'Negro', 1.20, '2026-06-02', 2, 3),
@@ -144,6 +157,7 @@ insert into SOLICITUD_IMPRESION (ID_Solicitud, Descripcion, Referencias_Visuales
 (10, 'Carcasa drone', 'ref_drone_10.png', 'Blanco', 1.30, '2026-06-10', 10, 10);
 
 -- render_preliminar (10)
+
 insert into RENDER_PRELIMINAR (ID_Render, Fecha_Envio, Imagen, Respuesta, Comentarios, Fecha_Respuesta, Numero_Pedido, ID_Empleado, Cedula_ID) values
 (1, '2026-06-01', 'render_01.png', 'Aprobado', 'Todo correcto', '2026-06-01', 1, 3, '0950000000001'),
 (2, '2026-06-02', 'render_02.png', 'Aprobado', 'Ajustar borde', '2026-06-02', 2, 3, '0950000000002'),
@@ -157,6 +171,7 @@ insert into RENDER_PRELIMINAR (ID_Render, Fecha_Envio, Imagen, Respuesta, Coment
 (10, '2026-06-10', 'render_10.png', 'Aprobado', 'Continuar', '2026-06-10', 10, 10, '0950000000010');
 
 -- orden_impresion (10)
+
 insert into ORDEN_IMPRESION (ID_Orden, Gramos_Proyectados, Tiempo_Estimado, Fecha_Inicio, Fecha_Fin, Estado, Numero_Pedido, Codigo_Interno, ID_Empleado) values
 (1, 120.00, 3.50, '2026-06-01 10:00:00', '2026-06-01 13:30:00', 'Finalizada', 1, 'IMP-FDM-01', 2),
 (2, 210.00, 5.00, '2026-06-02 11:00:00', '2026-06-02 16:00:00', 'Finalizada', 2, 'IMP-FDM-02', 5),
@@ -170,6 +185,7 @@ insert into ORDEN_IMPRESION (ID_Orden, Gramos_Proyectados, Tiempo_Estimado, Fech
 (10, 330.00, 8.10, '2026-06-10 07:50:00', '2026-06-10 15:56:00', 'En proceso', 10, 'IMP-FDM-02', 2);
 
 -- consumo_material (10)
+
 insert into CONSUMO_MATERIAL (ID_Consumo, Material_Bueno, Material_Desperdiciado, Fecha, ID_Orden, ID_Material) values
 (1, 115.00, 5.00, '2026-06-01', 1, 1),
 (2, 200.00, 10.00, '2026-06-02', 2, 3),
@@ -183,6 +199,7 @@ insert into CONSUMO_MATERIAL (ID_Consumo, Material_Bueno, Material_Desperdiciado
 (10, 315.00, 15.00, '2026-06-10', 10, 10);
 
 -- fallo_impresion (10)
+
 insert into FALLO_IMPRESION (ID_Fallo, Tipo_Fallo, Material_Desperdiciado, Tiempo_Perdido, Causa, Fue_Reimpresa, Costo_Reproceso, ID_Orden, ID_Empleado) values
 (1, 'Warping', 3.00, 0.80, 'Cama fria', 1, 2.10, 1, 2),
 (2, 'Adherencia', 4.00, 1.10, 'Nivelacion irregular', 1, 3.00, 2, 5),
@@ -196,6 +213,7 @@ insert into FALLO_IMPRESION (ID_Fallo, Tipo_Fallo, Material_Desperdiciado, Tiemp
 (10, 'Sobrecalentamiento', 3.10, 1.00, 'Ventilacion deficiente', 0, 2.20, 10, 2);
 
 -- mantenimiento (10)
+
 insert into MANTENIMIENTO (ID_Mantenimiento, Fecha, Tipo, Descripcion, Codigo_Interno, ID_Empleado) values
 (1, '2026-05-20', 'Preventivo', 'Limpieza general y ajuste ejes', 'IMP-FDM-01', 6),
 (2, '2026-05-21', 'Correctivo', 'Cambio de boquilla', 'IMP-FDM-02', 6),
@@ -209,6 +227,7 @@ insert into MANTENIMIENTO (ID_Mantenimiento, Fecha, Tipo, Descripcion, Codigo_In
 (10, '2026-05-29', 'Preventivo', 'Revision electrica', 'IMP-FDM-07', 6);
 
 -- entrada_material (10)
+
 insert into ENTRADA_MATERIAL (Numero_Entrada, Fecha_Recepcion, Cantidad, Fecha_Vencimiento, Estado_Empaque, ID_Proveedor, ID_Material, ID_Empleado) values
 (1, '2026-05-01', 1000.00, '2028-05-01', 'Sellado', 1, 1, 4),
 (2, '2026-05-02', 1000.00, '2028-05-02', 'Sellado', 2, 2, 4),
@@ -222,6 +241,7 @@ insert into ENTRADA_MATERIAL (Numero_Entrada, Fecha_Recepcion, Cantidad, Fecha_V
 (10, '2026-05-10', 650.00, '2028-05-10', 'Integro', 10, 10, 4);
 
 -- despacho (10)
+
 insert into DESPACHO (ID_Despacho, Codigo_Rastreo, Fecha_Envio, Fecha_Entrega, Estado, Numero_Pedido, ID_Empleado, ID_Transportadora) values
 (1, 'TRK-0001', '2026-06-02', '2026-06-03', 'Entregado', 1, 9, 1),
 (2, 'TRK-0002', '2026-06-03', null, 'En ruta', 2, 9, 2),
@@ -235,6 +255,7 @@ insert into DESPACHO (ID_Despacho, Codigo_Rastreo, Fecha_Envio, Fecha_Entrega, E
 (10, 'TRK-0010', '2026-06-11', null, 'Preparado', 10, 9, 10);
 
 -- encuesta_satisfaccion (10)
+
 insert into ENCUESTA_SATISFACCION (ID_Encuesta, Calif_Resistencia, Calif_Acabado, Comentario, Recomienda, Fecha_Respuesta, Numero_Pedido, Cedula_ID, ID_Empleado) values
 (1, 5, 4, 'Muy buen trabajo', 1, '2026-06-05', 1, '0950000000001', 2),
 (2, 4, 4, 'Cumple lo esperado', 1, '2026-06-06', 2, '0950000000002', 5),
