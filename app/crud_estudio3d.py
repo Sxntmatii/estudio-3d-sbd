@@ -1,5 +1,5 @@
 import mysql.connector
-#Modificado por EM
+
 conexion = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -59,7 +59,7 @@ def crud_cliente():
             correo = pedir("Correo: ", False)
             telefono = pedir("Telefono: ", False)
             try:
-                cursor.execute("INSERT INTO CLIENTE (Cedula_ID, Nombre, Correo, Telefono) VALUES (%s, %s, %s, %s)",
+                cursor.execute("CALL sp_cliente_insertar(%s, %s, %s, %s)",
                                (cedula_id, nombre, correo, telefono))
                 conexion.commit()
                 print("Registro agregado")
@@ -73,19 +73,19 @@ def crud_cliente():
             correo = pedir("Correo: ", False)
             telefono = pedir("Telefono: ", False)
             try:
-                cursor.execute("UPDATE CLIENTE SET Nombre = %s, Correo = %s, Telefono = %s WHERE Cedula_ID = %s",
-                               (nombre, correo, telefono, clave))
+                cursor.execute("CALL sp_cliente_actualizar(%s, %s, %s, %s)",
+                               (clave, nombre, correo, telefono))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("Cedula_ID del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM CLIENTE WHERE Cedula_ID = %s", (clave,))
+                    cursor.execute("CALL sp_cliente_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -106,7 +106,7 @@ def crud_empleado():
             rol = pedir("Rol: ", True)
             telefono = pedir("Telefono: ", False)
             try:
-                cursor.execute("INSERT INTO EMPLEADO (Nombre, Rol, Telefono) VALUES (%s, %s, %s)",
+                cursor.execute("CALL sp_empleado_insertar(%s, %s, %s)",
                                (nombre, rol, telefono))
                 conexion.commit()
                 print("Registro agregado")
@@ -120,19 +120,19 @@ def crud_empleado():
             rol = pedir("Rol: ", True)
             telefono = pedir("Telefono: ", False)
             try:
-                cursor.execute("UPDATE EMPLEADO SET Nombre = %s, Rol = %s, Telefono = %s WHERE ID_Empleado = %s",
-                               (nombre, rol, telefono, clave))
+                cursor.execute("CALL sp_empleado_actualizar(%s, %s, %s, %s)",
+                               (clave, nombre, rol, telefono))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Empleado del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM EMPLEADO WHERE ID_Empleado = %s", (clave,))
+                    cursor.execute("CALL sp_empleado_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -153,7 +153,7 @@ def crud_proveedor():
             telefono = pedir("Telefono: ", False)
             correo = pedir("Correo: ", False)
             try:
-                cursor.execute("INSERT INTO PROVEEDOR (Nombre, Telefono, Correo) VALUES (%s, %s, %s)",
+                cursor.execute("CALL sp_proveedor_insertar(%s, %s, %s)",
                                (nombre, telefono, correo))
                 conexion.commit()
                 print("Registro agregado")
@@ -167,19 +167,19 @@ def crud_proveedor():
             telefono = pedir("Telefono: ", False)
             correo = pedir("Correo: ", False)
             try:
-                cursor.execute("UPDATE PROVEEDOR SET Nombre = %s, Telefono = %s, Correo = %s WHERE ID_Proveedor = %s",
-                               (nombre, telefono, correo, clave))
+                cursor.execute("CALL sp_proveedor_actualizar(%s, %s, %s, %s)",
+                               (clave, nombre, telefono, correo))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Proveedor del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM PROVEEDOR WHERE ID_Proveedor = %s", (clave,))
+                    cursor.execute("CALL sp_proveedor_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -200,7 +200,7 @@ def crud_transportadora():
             telefono = pedir("Telefono: ", False)
             sitio_web = pedir("Sitio_Web: ", False)
             try:
-                cursor.execute("INSERT INTO TRANSPORTADORA (Nombre, Telefono, Sitio_Web) VALUES (%s, %s, %s)",
+                cursor.execute("CALL sp_transportadora_insertar(%s, %s, %s)",
                                (nombre, telefono, sitio_web))
                 conexion.commit()
                 print("Registro agregado")
@@ -214,19 +214,19 @@ def crud_transportadora():
             telefono = pedir("Telefono: ", False)
             sitio_web = pedir("Sitio_Web: ", False)
             try:
-                cursor.execute("UPDATE TRANSPORTADORA SET Nombre = %s, Telefono = %s, Sitio_Web = %s WHERE ID_Transportadora = %s",
-                               (nombre, telefono, sitio_web, clave))
+                cursor.execute("CALL sp_transportadora_actualizar(%s, %s, %s, %s)",
+                               (clave, nombre, telefono, sitio_web))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Transportadora del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM TRANSPORTADORA WHERE ID_Transportadora = %s", (clave,))
+                    cursor.execute("CALL sp_transportadora_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -249,7 +249,7 @@ def crud_material():
             stock_actual = pedir("Stock_Actual: ", True)
             costo_unitario = pedir("Costo_Unitario: ", True)
             try:
-                cursor.execute("INSERT INTO MATERIAL (Tipo, Color, Unidad, Stock_Actual, Costo_Unitario) VALUES (%s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_material_insertar(%s, %s, %s, %s, %s)",
                                (tipo, color, unidad, stock_actual, costo_unitario))
                 conexion.commit()
                 print("Registro agregado")
@@ -265,19 +265,19 @@ def crud_material():
             stock_actual = pedir("Stock_Actual: ", True)
             costo_unitario = pedir("Costo_Unitario: ", True)
             try:
-                cursor.execute("UPDATE MATERIAL SET Tipo = %s, Color = %s, Unidad = %s, Stock_Actual = %s, Costo_Unitario = %s WHERE ID_Material = %s",
-                               (tipo, color, unidad, stock_actual, costo_unitario, clave))
+                cursor.execute("CALL sp_material_actualizar(%s, %s, %s, %s, %s, %s)",
+                               (clave, tipo, color, unidad, stock_actual, costo_unitario))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Material del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM MATERIAL WHERE ID_Material = %s", (clave,))
+                    cursor.execute("CALL sp_material_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -301,7 +301,7 @@ def crud_producto():
             tipo_garantia = pedir("Tipo_Garantia: ", False)
             stock = pedir("Stock: ", True)
             try:
-                cursor.execute("INSERT INTO PRODUCTO (Codigo_Producto, Nombre, Precio, Categoria, Tipo_Garantia, Stock) VALUES (%s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_producto_insertar(%s, %s, %s, %s, %s, %s)",
                                (codigo_producto, nombre, precio, categoria, tipo_garantia, stock))
                 conexion.commit()
                 print("Registro agregado")
@@ -317,19 +317,19 @@ def crud_producto():
             tipo_garantia = pedir("Tipo_Garantia: ", False)
             stock = pedir("Stock: ", True)
             try:
-                cursor.execute("UPDATE PRODUCTO SET Nombre = %s, Precio = %s, Categoria = %s, Tipo_Garantia = %s, Stock = %s WHERE Codigo_Producto = %s",
-                               (nombre, precio, categoria, tipo_garantia, stock, clave))
+                cursor.execute("CALL sp_producto_actualizar(%s, %s, %s, %s, %s, %s)",
+                               (clave, nombre, precio, categoria, tipo_garantia, stock))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("Codigo_Producto del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM PRODUCTO WHERE Codigo_Producto = %s", (clave,))
+                    cursor.execute("CALL sp_producto_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -355,7 +355,7 @@ def crud_impresora_3d():
             estado = pedir("Estado: ", True)
             id_proveedor = pedir("ID_Proveedor: ", True)
             try:
-                cursor.execute("INSERT INTO IMPRESORA_3D (Codigo_Interno, Marca, Modelo, Tecnologia, Numero_Serie, Fecha_Compra, Estado, ID_Proveedor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_impresora_3d_insertar(%s, %s, %s, %s, %s, %s, %s, %s)",
                                (codigo_interno, marca, modelo, tecnologia, numero_serie, fecha_compra, estado, id_proveedor))
                 conexion.commit()
                 print("Registro agregado")
@@ -373,19 +373,19 @@ def crud_impresora_3d():
             estado = pedir("Estado: ", True)
             id_proveedor = pedir("ID_Proveedor: ", True)
             try:
-                cursor.execute("UPDATE IMPRESORA_3D SET Marca = %s, Modelo = %s, Tecnologia = %s, Numero_Serie = %s, Fecha_Compra = %s, Estado = %s, ID_Proveedor = %s WHERE Codigo_Interno = %s",
-                               (marca, modelo, tecnologia, numero_serie, fecha_compra, estado, id_proveedor, clave))
+                cursor.execute("CALL sp_impresora_3d_actualizar(%s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, marca, modelo, tecnologia, numero_serie, fecha_compra, estado, id_proveedor))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("Codigo_Interno del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM IMPRESORA_3D WHERE Codigo_Interno = %s", (clave,))
+                    cursor.execute("CALL sp_impresora_3d_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -409,7 +409,7 @@ def crud_pedido():
             total = pedir("Total: ", False)
             cedula_id = pedir("Cedula_ID: ", True)
             try:
-                cursor.execute("INSERT INTO PEDIDO (Fecha_Hora, Tipo, Estado_Actual, Fecha_Estim_Entrega, Total, Cedula_ID) VALUES (%s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_pedido_insertar(%s, %s, %s, %s, %s, %s)",
                                (fecha_hora, tipo, estado_actual, fecha_estim_entrega, total, cedula_id))
                 conexion.commit()
                 print("Registro agregado")
@@ -426,19 +426,19 @@ def crud_pedido():
             total = pedir("Total: ", False)
             cedula_id = pedir("Cedula_ID: ", True)
             try:
-                cursor.execute("UPDATE PEDIDO SET Fecha_Hora = %s, Tipo = %s, Estado_Actual = %s, Fecha_Estim_Entrega = %s, Total = %s, Cedula_ID = %s WHERE Numero_Pedido = %s",
-                               (fecha_hora, tipo, estado_actual, fecha_estim_entrega, total, cedula_id, clave))
+                cursor.execute("CALL sp_pedido_actualizar(%s, %s, %s, %s, %s, %s, %s)",
+                               (clave, fecha_hora, tipo, estado_actual, fecha_estim_entrega, total, cedula_id))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("Numero_Pedido del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM PEDIDO WHERE Numero_Pedido = %s", (clave,))
+                    cursor.execute("CALL sp_pedido_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -461,7 +461,7 @@ def crud_detalle_pedido():
             numero_pedido = pedir("Numero_Pedido: ", True)
             codigo_producto = pedir("Codigo_Producto: ", True)
             try:
-                cursor.execute("INSERT INTO DETALLE_PEDIDO (Cantidad, Precio_Unitario, Subtotal, Numero_Pedido, Codigo_Producto) VALUES (%s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_detalle_pedido_insertar(%s, %s, %s, %s, %s)",
                                (cantidad, precio_unitario, subtotal, numero_pedido, codigo_producto))
                 conexion.commit()
                 print("Registro agregado")
@@ -477,19 +477,19 @@ def crud_detalle_pedido():
             numero_pedido = pedir("Numero_Pedido: ", True)
             codigo_producto = pedir("Codigo_Producto: ", True)
             try:
-                cursor.execute("UPDATE DETALLE_PEDIDO SET Cantidad = %s, Precio_Unitario = %s, Subtotal = %s, Numero_Pedido = %s, Codigo_Producto = %s WHERE ID_Detalle = %s",
-                               (cantidad, precio_unitario, subtotal, numero_pedido, codigo_producto, clave))
+                cursor.execute("CALL sp_detalle_pedido_actualizar(%s, %s, %s, %s, %s, %s)",
+                               (clave, cantidad, precio_unitario, subtotal, numero_pedido, codigo_producto))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Detalle del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM DETALLE_PEDIDO WHERE ID_Detalle = %s", (clave,))
+                    cursor.execute("CALL sp_detalle_pedido_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -513,7 +513,7 @@ def crud_factura():
             fecha_pago = pedir("Fecha_Pago: ", False)
             numero_pedido = pedir("Numero_Pedido: ", True)
             try:
-                cursor.execute("INSERT INTO FACTURA (Fecha_Emision, Total, Estado_Pago, Forma_Pago, Fecha_Pago, Numero_Pedido) VALUES (%s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_factura_insertar(%s, %s, %s, %s, %s, %s)",
                                (fecha_emision, total, estado_pago, forma_pago, fecha_pago, numero_pedido))
                 conexion.commit()
                 print("Registro agregado")
@@ -530,19 +530,19 @@ def crud_factura():
             fecha_pago = pedir("Fecha_Pago: ", False)
             numero_pedido = pedir("Numero_Pedido: ", True)
             try:
-                cursor.execute("UPDATE FACTURA SET Fecha_Emision = %s, Total = %s, Estado_Pago = %s, Forma_Pago = %s, Fecha_Pago = %s, Numero_Pedido = %s WHERE Numero_Factura = %s",
-                               (fecha_emision, total, estado_pago, forma_pago, fecha_pago, numero_pedido, clave))
+                cursor.execute("CALL sp_factura_actualizar(%s, %s, %s, %s, %s, %s, %s)",
+                               (clave, fecha_emision, total, estado_pago, forma_pago, fecha_pago, numero_pedido))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("Numero_Factura del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM FACTURA WHERE Numero_Factura = %s", (clave,))
+                    cursor.execute("CALL sp_factura_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -567,7 +567,7 @@ def crud_solicitud_impresion():
             numero_pedido = pedir("Numero_Pedido: ", True)
             id_material = pedir("ID_Material: ", True)
             try:
-                cursor.execute("INSERT INTO SOLICITUD_IMPRESION (Descripcion, Referencias_Visuales, Color, Escala, Fecha_Solicitud, Numero_Pedido, ID_Material) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_solicitud_impresion_insertar(%s, %s, %s, %s, %s, %s, %s)",
                                (descripcion, referencias_visuales, color, escala, fecha_solicitud, numero_pedido, id_material))
                 conexion.commit()
                 print("Registro agregado")
@@ -585,19 +585,19 @@ def crud_solicitud_impresion():
             numero_pedido = pedir("Numero_Pedido: ", True)
             id_material = pedir("ID_Material: ", True)
             try:
-                cursor.execute("UPDATE SOLICITUD_IMPRESION SET Descripcion = %s, Referencias_Visuales = %s, Color = %s, Escala = %s, Fecha_Solicitud = %s, Numero_Pedido = %s, ID_Material = %s WHERE ID_Solicitud = %s",
-                               (descripcion, referencias_visuales, color, escala, fecha_solicitud, numero_pedido, id_material, clave))
+                cursor.execute("CALL sp_solicitud_impresion_actualizar(%s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, descripcion, referencias_visuales, color, escala, fecha_solicitud, numero_pedido, id_material))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Solicitud del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM SOLICITUD_IMPRESION WHERE ID_Solicitud = %s", (clave,))
+                    cursor.execute("CALL sp_solicitud_impresion_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -623,7 +623,7 @@ def crud_render_preliminar():
             id_empleado = pedir("ID_Empleado: ", True)
             cedula_id = pedir("Cedula_ID: ", True)
             try:
-                cursor.execute("INSERT INTO RENDER_PRELIMINAR (Fecha_Envio, Imagen, Respuesta, Comentarios, Fecha_Respuesta, Numero_Pedido, ID_Empleado, Cedula_ID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_render_preliminar_insertar(%s, %s, %s, %s, %s, %s, %s, %s)",
                                (fecha_envio, imagen, respuesta, comentarios, fecha_respuesta, numero_pedido, id_empleado, cedula_id))
                 conexion.commit()
                 print("Registro agregado")
@@ -642,19 +642,19 @@ def crud_render_preliminar():
             id_empleado = pedir("ID_Empleado: ", True)
             cedula_id = pedir("Cedula_ID: ", True)
             try:
-                cursor.execute("UPDATE RENDER_PRELIMINAR SET Fecha_Envio = %s, Imagen = %s, Respuesta = %s, Comentarios = %s, Fecha_Respuesta = %s, Numero_Pedido = %s, ID_Empleado = %s, Cedula_ID = %s WHERE ID_Render = %s",
-                               (fecha_envio, imagen, respuesta, comentarios, fecha_respuesta, numero_pedido, id_empleado, cedula_id, clave))
+                cursor.execute("CALL sp_render_preliminar_actualizar(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, fecha_envio, imagen, respuesta, comentarios, fecha_respuesta, numero_pedido, id_empleado, cedula_id))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Render del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM RENDER_PRELIMINAR WHERE ID_Render = %s", (clave,))
+                    cursor.execute("CALL sp_render_preliminar_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -680,7 +680,7 @@ def crud_orden_impresion():
             codigo_interno = pedir("Codigo_Interno: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("INSERT INTO ORDEN_IMPRESION (Gramos_Proyectados, Tiempo_Estimado, Fecha_Inicio, Fecha_Fin, Estado, Numero_Pedido, Codigo_Interno, ID_Empleado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_orden_impresion_insertar(%s, %s, %s, %s, %s, %s, %s, %s)",
                                (gramos_proyectados, tiempo_estimado, fecha_inicio, fecha_fin, estado, numero_pedido, codigo_interno, id_empleado))
                 conexion.commit()
                 print("Registro agregado")
@@ -699,19 +699,19 @@ def crud_orden_impresion():
             codigo_interno = pedir("Codigo_Interno: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("UPDATE ORDEN_IMPRESION SET Gramos_Proyectados = %s, Tiempo_Estimado = %s, Fecha_Inicio = %s, Fecha_Fin = %s, Estado = %s, Numero_Pedido = %s, Codigo_Interno = %s, ID_Empleado = %s WHERE ID_Orden = %s",
-                               (gramos_proyectados, tiempo_estimado, fecha_inicio, fecha_fin, estado, numero_pedido, codigo_interno, id_empleado, clave))
+                cursor.execute("CALL sp_orden_impresion_actualizar(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, gramos_proyectados, tiempo_estimado, fecha_inicio, fecha_fin, estado, numero_pedido, codigo_interno, id_empleado))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Orden del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM ORDEN_IMPRESION WHERE ID_Orden = %s", (clave,))
+                    cursor.execute("CALL sp_orden_impresion_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -734,7 +734,7 @@ def crud_consumo_material():
             id_orden = pedir("ID_Orden: ", True)
             id_material = pedir("ID_Material: ", True)
             try:
-                cursor.execute("INSERT INTO CONSUMO_MATERIAL (Material_Bueno, Material_Desperdiciado, Fecha, ID_Orden, ID_Material) VALUES (%s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_consumo_material_insertar(%s, %s, %s, %s, %s)",
                                (material_bueno, material_desperdiciado, fecha, id_orden, id_material))
                 conexion.commit()
                 print("Registro agregado")
@@ -750,19 +750,19 @@ def crud_consumo_material():
             id_orden = pedir("ID_Orden: ", True)
             id_material = pedir("ID_Material: ", True)
             try:
-                cursor.execute("UPDATE CONSUMO_MATERIAL SET Material_Bueno = %s, Material_Desperdiciado = %s, Fecha = %s, ID_Orden = %s, ID_Material = %s WHERE ID_Consumo = %s",
-                               (material_bueno, material_desperdiciado, fecha, id_orden, id_material, clave))
+                cursor.execute("CALL sp_consumo_material_actualizar(%s, %s, %s, %s, %s, %s)",
+                               (clave, material_bueno, material_desperdiciado, fecha, id_orden, id_material))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Consumo del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM CONSUMO_MATERIAL WHERE ID_Consumo = %s", (clave,))
+                    cursor.execute("CALL sp_consumo_material_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -788,7 +788,7 @@ def crud_fallo_impresion():
             id_orden = pedir("ID_Orden: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("INSERT INTO FALLO_IMPRESION (Tipo_Fallo, Material_Desperdiciado, Tiempo_Perdido, Causa, Fue_Reimpresa, Costo_Reproceso, ID_Orden, ID_Empleado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_fallo_impresion_insertar(%s, %s, %s, %s, %s, %s, %s, %s)",
                                (tipo_fallo, material_desperdiciado, tiempo_perdido, causa, fue_reimpresa, costo_reproceso, id_orden, id_empleado))
                 conexion.commit()
                 print("Registro agregado")
@@ -807,19 +807,19 @@ def crud_fallo_impresion():
             id_orden = pedir("ID_Orden: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("UPDATE FALLO_IMPRESION SET Tipo_Fallo = %s, Material_Desperdiciado = %s, Tiempo_Perdido = %s, Causa = %s, Fue_Reimpresa = %s, Costo_Reproceso = %s, ID_Orden = %s, ID_Empleado = %s WHERE ID_Fallo = %s",
-                               (tipo_fallo, material_desperdiciado, tiempo_perdido, causa, fue_reimpresa, costo_reproceso, id_orden, id_empleado, clave))
+                cursor.execute("CALL sp_fallo_impresion_actualizar(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, tipo_fallo, material_desperdiciado, tiempo_perdido, causa, fue_reimpresa, costo_reproceso, id_orden, id_empleado))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Fallo del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM FALLO_IMPRESION WHERE ID_Fallo = %s", (clave,))
+                    cursor.execute("CALL sp_fallo_impresion_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -842,7 +842,7 @@ def crud_mantenimiento():
             codigo_interno = pedir("Codigo_Interno: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("INSERT INTO MANTENIMIENTO (Fecha, Tipo, Descripcion, Codigo_Interno, ID_Empleado) VALUES (%s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_mantenimiento_insertar(%s, %s, %s, %s, %s)",
                                (fecha, tipo, descripcion, codigo_interno, id_empleado))
                 conexion.commit()
                 print("Registro agregado")
@@ -858,19 +858,19 @@ def crud_mantenimiento():
             codigo_interno = pedir("Codigo_Interno: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("UPDATE MANTENIMIENTO SET Fecha = %s, Tipo = %s, Descripcion = %s, Codigo_Interno = %s, ID_Empleado = %s WHERE ID_Mantenimiento = %s",
-                               (fecha, tipo, descripcion, codigo_interno, id_empleado, clave))
+                cursor.execute("CALL sp_mantenimiento_actualizar(%s, %s, %s, %s, %s, %s)",
+                               (clave, fecha, tipo, descripcion, codigo_interno, id_empleado))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Mantenimiento del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM MANTENIMIENTO WHERE ID_Mantenimiento = %s", (clave,))
+                    cursor.execute("CALL sp_mantenimiento_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -895,7 +895,7 @@ def crud_entrada_material():
             id_material = pedir("ID_Material: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("INSERT INTO ENTRADA_MATERIAL (Fecha_Recepcion, Cantidad, Fecha_Vencimiento, Estado_Empaque, ID_Proveedor, ID_Material, ID_Empleado) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_entrada_material_insertar(%s, %s, %s, %s, %s, %s, %s)",
                                (fecha_recepcion, cantidad, fecha_vencimiento, estado_empaque, id_proveedor, id_material, id_empleado))
                 conexion.commit()
                 print("Registro agregado")
@@ -913,19 +913,19 @@ def crud_entrada_material():
             id_material = pedir("ID_Material: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("UPDATE ENTRADA_MATERIAL SET Fecha_Recepcion = %s, Cantidad = %s, Fecha_Vencimiento = %s, Estado_Empaque = %s, ID_Proveedor = %s, ID_Material = %s, ID_Empleado = %s WHERE Numero_Entrada = %s",
-                               (fecha_recepcion, cantidad, fecha_vencimiento, estado_empaque, id_proveedor, id_material, id_empleado, clave))
+                cursor.execute("CALL sp_entrada_material_actualizar(%s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, fecha_recepcion, cantidad, fecha_vencimiento, estado_empaque, id_proveedor, id_material, id_empleado))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("Numero_Entrada del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM ENTRADA_MATERIAL WHERE Numero_Entrada = %s", (clave,))
+                    cursor.execute("CALL sp_entrada_material_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -950,7 +950,7 @@ def crud_despacho():
             id_empleado = pedir("ID_Empleado: ", True)
             id_transportadora = pedir("ID_Transportadora: ", True)
             try:
-                cursor.execute("INSERT INTO DESPACHO (Codigo_Rastreo, Fecha_Envio, Fecha_Entrega, Estado, Numero_Pedido, ID_Empleado, ID_Transportadora) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_despacho_insertar(%s, %s, %s, %s, %s, %s, %s)",
                                (codigo_rastreo, fecha_envio, fecha_entrega, estado, numero_pedido, id_empleado, id_transportadora))
                 conexion.commit()
                 print("Registro agregado")
@@ -968,19 +968,19 @@ def crud_despacho():
             id_empleado = pedir("ID_Empleado: ", True)
             id_transportadora = pedir("ID_Transportadora: ", True)
             try:
-                cursor.execute("UPDATE DESPACHO SET Codigo_Rastreo = %s, Fecha_Envio = %s, Fecha_Entrega = %s, Estado = %s, Numero_Pedido = %s, ID_Empleado = %s, ID_Transportadora = %s WHERE ID_Despacho = %s",
-                               (codigo_rastreo, fecha_envio, fecha_entrega, estado, numero_pedido, id_empleado, id_transportadora, clave))
+                cursor.execute("CALL sp_despacho_actualizar(%s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, codigo_rastreo, fecha_envio, fecha_entrega, estado, numero_pedido, id_empleado, id_transportadora))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Despacho del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM DESPACHO WHERE ID_Despacho = %s", (clave,))
+                    cursor.execute("CALL sp_despacho_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
@@ -1006,7 +1006,7 @@ def crud_encuesta_satisfaccion():
             cedula_id = pedir("Cedula_ID: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("INSERT INTO ENCUESTA_SATISFACCION (Calif_Resistencia, Calif_Acabado, Comentario, Recomienda, Fecha_Respuesta, Numero_Pedido, Cedula_ID, ID_Empleado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                cursor.execute("CALL sp_encuesta_satisfaccion_insertar(%s, %s, %s, %s, %s, %s, %s, %s)",
                                (calif_resistencia, calif_acabado, comentario, recomienda, fecha_respuesta, numero_pedido, cedula_id, id_empleado))
                 conexion.commit()
                 print("Registro agregado")
@@ -1025,19 +1025,19 @@ def crud_encuesta_satisfaccion():
             cedula_id = pedir("Cedula_ID: ", True)
             id_empleado = pedir("ID_Empleado: ", True)
             try:
-                cursor.execute("UPDATE ENCUESTA_SATISFACCION SET Calif_Resistencia = %s, Calif_Acabado = %s, Comentario = %s, Recomienda = %s, Fecha_Respuesta = %s, Numero_Pedido = %s, Cedula_ID = %s, ID_Empleado = %s WHERE ID_Encuesta = %s",
-                               (calif_resistencia, calif_acabado, comentario, recomienda, fecha_respuesta, numero_pedido, cedula_id, id_empleado, clave))
+                cursor.execute("CALL sp_encuesta_satisfaccion_actualizar(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                               (clave, calif_resistencia, calif_acabado, comentario, recomienda, fecha_respuesta, numero_pedido, cedula_id, id_empleado))
                 conexion.commit()
-                print("Registros actualizados:", cursor.rowcount)
+                print("Registro actualizado")
             except mysql.connector.Error as error:
                 print("Error:", error.msg)
         elif opcion == "4":
             clave = pedir("ID_Encuesta del registro a eliminar: ", True)
             if confirmar():
                 try:
-                    cursor.execute("DELETE FROM ENCUESTA_SATISFACCION WHERE ID_Encuesta = %s", (clave,))
+                    cursor.execute("CALL sp_encuesta_satisfaccion_eliminar(%s)", (clave,))
                     conexion.commit()
-                    print("Registros eliminados:", cursor.rowcount)
+                    print("Registro eliminado")
                 except mysql.connector.Error as error:
                     print("No se puede eliminar:", error.msg)
 
