@@ -4,7 +4,7 @@
 --  Mora Eduardo, Santana James, Santiago Herrera
 --
 --  Schema completo: tablas, datos, triggers, reportes,
---  procedimientos, indices y usuarios.
+--  procedimientos, usuarios e indices.
 --  Se ejecuta de una sola vez en MySQL Workbench.
 -- ===================================================================
 
@@ -570,7 +570,7 @@ insert into ENCUESTA_SATISFACCION (ID_Encuesta, Calif_Resistencia, Calif_Acabado
 
 
 -- ===================================================================
---  3) TRIGGERS, REPORTES, PROCEDIMIENTOS, INDICES Y USUARIOS
+--  3) TRIGGERS, REPORTES, PROCEDIMIENTOS, USUARIOS E INDICES
 -- ===================================================================
 
 -- ===================================================================
@@ -588,12 +588,23 @@ USE estudio3d;
 -- ###################################################################
 
 DROP TRIGGER IF EXISTS tr_detalle_subtotal;
+DROP TRIGGER IF EXISTS tr_detalle_subtotal_editar;
 DROP TRIGGER IF EXISTS tr_consumo_descuenta_stock;
 
 -- Trigger 1: calcula solo el subtotal de cada linea del pedido.
 DELIMITER $$
 CREATE TRIGGER tr_detalle_subtotal
 BEFORE INSERT ON DETALLE_PEDIDO
+FOR EACH ROW
+BEGIN
+    SET NEW.Subtotal = NEW.Cantidad * NEW.Precio_Unitario;
+END $$
+DELIMITER ;
+
+-- Trigger 3: si se edita la linea, vuelve a calcular el subtotal.
+DELIMITER $$
+CREATE TRIGGER tr_detalle_subtotal_editar
+BEFORE UPDATE ON DETALLE_PEDIDO
 FOR EACH ROW
 BEGIN
     SET NEW.Subtotal = NEW.Cantidad * NEW.Precio_Unitario;
@@ -1644,7 +1655,7 @@ DROP PROCEDURE IF EXISTS sp_fallo_impresion_actualizar;
 DROP PROCEDURE IF EXISTS sp_fallo_impresion_eliminar;
 
 DELIMITER $$
-CREATE PROCEDURE sp_fallo_impresion_insertar(IN p_Tipo_Fallo varchar(100), IN p_Material_Desperdiciado decimal(8,2), IN p_Tiempo_Perdido decimal(8,2), IN p_Causa text, IN p_Fue_Reimpresa tinyint(1), IN p_Costo_Reproceso decimal(10,2), IN p_ID_Orden int, IN p_ID_Empleado int)
+CREATE PROCEDURE sp_fallo_impresion_insertar(IN p_Tipo_Fallo varchar(100), IN p_Material_Desperdiciado decimal(8,2), IN p_Tiempo_Perdido decimal(8,2), IN p_Causa text, IN p_Fue_Reimpresa tinyint, IN p_Costo_Reproceso decimal(10,2), IN p_ID_Orden int, IN p_ID_Empleado int)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -1660,7 +1671,7 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE sp_fallo_impresion_actualizar(IN p_ID_Fallo int, IN p_Tipo_Fallo varchar(100), IN p_Material_Desperdiciado decimal(8,2), IN p_Tiempo_Perdido decimal(8,2), IN p_Causa text, IN p_Fue_Reimpresa tinyint(1), IN p_Costo_Reproceso decimal(10,2), IN p_ID_Orden int, IN p_ID_Empleado int)
+CREATE PROCEDURE sp_fallo_impresion_actualizar(IN p_ID_Fallo int, IN p_Tipo_Fallo varchar(100), IN p_Material_Desperdiciado decimal(8,2), IN p_Tiempo_Perdido decimal(8,2), IN p_Causa text, IN p_Fue_Reimpresa tinyint, IN p_Costo_Reproceso decimal(10,2), IN p_ID_Orden int, IN p_ID_Empleado int)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -1911,7 +1922,7 @@ DROP PROCEDURE IF EXISTS sp_encuesta_satisfaccion_actualizar;
 DROP PROCEDURE IF EXISTS sp_encuesta_satisfaccion_eliminar;
 
 DELIMITER $$
-CREATE PROCEDURE sp_encuesta_satisfaccion_insertar(IN p_Calif_Resistencia int, IN p_Calif_Acabado int, IN p_Comentario text, IN p_Recomienda tinyint(1), IN p_Fecha_Respuesta date, IN p_Numero_Pedido int, IN p_Cedula_ID varchar(13), IN p_ID_Empleado int)
+CREATE PROCEDURE sp_encuesta_satisfaccion_insertar(IN p_Calif_Resistencia int, IN p_Calif_Acabado int, IN p_Comentario text, IN p_Recomienda tinyint, IN p_Fecha_Respuesta date, IN p_Numero_Pedido int, IN p_Cedula_ID varchar(13), IN p_ID_Empleado int)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -1935,7 +1946,7 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE sp_encuesta_satisfaccion_actualizar(IN p_ID_Encuesta int, IN p_Calif_Resistencia int, IN p_Calif_Acabado int, IN p_Comentario text, IN p_Recomienda tinyint(1), IN p_Fecha_Respuesta date, IN p_Numero_Pedido int, IN p_Cedula_ID varchar(13), IN p_ID_Empleado int)
+CREATE PROCEDURE sp_encuesta_satisfaccion_actualizar(IN p_ID_Encuesta int, IN p_Calif_Resistencia int, IN p_Calif_Acabado int, IN p_Comentario text, IN p_Recomienda tinyint, IN p_Fecha_Respuesta date, IN p_Numero_Pedido int, IN p_Cedula_ID varchar(13), IN p_ID_Empleado int)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -1983,30 +1994,7 @@ DELIMITER ;
 
 
 -- ###################################################################
--- 4) INDICES
--- ###################################################################
-
--- El reporte de pedidos se filtra seguido por el estado.
-CREATE INDEX idx_pedido_estado ON PEDIDO(Estado_Actual);
-
--- El catalogo se consulta y se ordena por categoria.
-CREATE INDEX idx_producto_categoria ON PRODUCTO(Categoria);
-
--- Se busca a los clientes por su nombre.
-CREATE INDEX idx_cliente_nombre ON CLIENTE(Nombre);
-
--- Los reportes de produccion se sacan por rango de fechas.
-CREATE INDEX idx_orden_fecha ON ORDEN_IMPRESION(Fecha_Inicio);
-
--- Se piden las calificaciones de un empleado en un rango de fechas; las dos columnas van en la misma consulta.
-CREATE INDEX idx_encuesta_emp_fecha ON ENCUESTA_SATISFACCION(ID_Empleado, Fecha_Respuesta);
-
--- El reporte de consumo agrupa por material.
-CREATE INDEX idx_consumo_material ON CONSUMO_MATERIAL(ID_Material);
-
-
--- ###################################################################
--- 5) USUARIOS Y PERMISOS
+-- 4) USUARIOS Y PERMISOS
 -- ###################################################################
 
 DROP USER IF EXISTS 'admin_estudio'@'localhost';
@@ -2045,4 +2033,27 @@ GRANT SELECT (Codigo_Producto, Nombre, Categoria, Precio) ON estudio3d.PRODUCTO 
 GRANT SELECT ON estudio3d.v_reporte_entregas TO 'cliente_consulta'@'localhost';
 
 FLUSH PRIVILEGES;
+
+
+-- ###################################################################
+-- 5) INDICES
+-- ###################################################################
+
+-- El reporte de pedidos se filtra seguido por el estado.
+CREATE INDEX idx_pedido_estado ON PEDIDO(Estado_Actual);
+
+-- El catalogo se consulta y se ordena por categoria.
+CREATE INDEX idx_producto_categoria ON PRODUCTO(Categoria);
+
+-- Se busca a los clientes por su nombre.
+CREATE INDEX idx_cliente_nombre ON CLIENTE(Nombre);
+
+-- Los reportes de produccion se sacan por rango de fechas.
+CREATE INDEX idx_orden_fecha ON ORDEN_IMPRESION(Fecha_Inicio);
+
+-- Se piden las calificaciones de un empleado en un rango de fechas; las dos columnas van en la misma consulta.
+CREATE INDEX idx_encuesta_emp_fecha ON ENCUESTA_SATISFACCION(ID_Empleado, Fecha_Respuesta);
+
+-- El reporte de consumo agrupa por material.
+CREATE INDEX idx_consumo_material ON CONSUMO_MATERIAL(ID_Material);
 

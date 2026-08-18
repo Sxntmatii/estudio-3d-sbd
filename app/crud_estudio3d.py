@@ -1042,6 +1042,27 @@ def crud_encuesta_satisfaccion():
                     print("No se puede eliminar:", error.msg)
 
 
+def reportes():
+    opcion = ""
+    while opcion != "0":
+        print()
+        print("===== REPORTES =====")
+        print("1) Pedidos con su cliente y sus productos")
+        print("2) Produccion: orden, maquina y operador")
+        print("3) Consumo de material por orden")
+        print("4) Entregas: transportadora y encargado")
+        print("0) Volver")
+        opcion = input("Opcion: ")
+        if opcion == "1":
+            mostrar("SELECT * FROM v_reporte_pedidos")
+        elif opcion == "2":
+            mostrar("SELECT * FROM v_reporte_produccion")
+        elif opcion == "3":
+            mostrar("SELECT * FROM v_reporte_consumo")
+        elif opcion == "4":
+            mostrar("SELECT * FROM v_reporte_entregas")
+
+
 def consultas():
     opcion = ""
     while opcion != "0":
@@ -1118,6 +1139,7 @@ def menu():
         print("19) Encuestas de satisfaccion")
         print("-- Otros --")
         print("20) Consultas")
+        print("21) Reportes")
         print(" 0) Salir")
         opcion = input("Opcion: ")
         if opcion == "1":
@@ -1160,6 +1182,8 @@ def menu():
             crud_encuesta_satisfaccion()
         elif opcion == "20":
             consultas()
+        elif opcion == "21":
+            reportes()
 
 
 print("Conectado a la base de datos estudio3d")
