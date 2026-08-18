@@ -74,10 +74,23 @@ la tabla que quiere y ahí aparecen las cuatro operaciones:
 
 También pusimos la opción 20, que son consultas que juntan varias tablas. Por
 ejemplo se puede ver el total de un pedido con su forma de pago, o quién fue el
-que envió un pedido.
+que envió un pedido. Y en la opción 21 están los cuatro reportes.
 
 El programa valida lo que uno escribe. Si se intenta guardar una clave que ya
 existe, o borrar un cliente que tiene pedidos, avisa con un mensaje y no se cae.
+Para añadir, editar y eliminar no manda SQL directo: llama a los procedimientos
+de la base, que son los que validan y manejan la transacción.
+
+## Lo que tiene la base
+
+| Objeto | Cuántos | Para qué |
+|---|---|---|
+| Tablas | 19 | Con 190 registros de prueba, 10 por tabla |
+| Triggers | 3 | Calculan el subtotal solo y descuentan el material del inventario |
+| Reportes (vistas) | 4 | Juntan de 4 a 5 tablas y muestran nombres en vez de códigos |
+| Procedimientos | 57 | Insertar, actualizar y eliminar en cada tabla, con transacción y validaciones |
+| Índices | 6 | En las columnas por las que más se busca |
+| Usuarios | 6 | Cada uno con permisos según su rol |
 
 ## Tablas que salen de una relación de muchos a muchos
 
@@ -90,11 +103,15 @@ existe, o borrar un cliente que tiene pedidos, avisa con un mensaje y no se cae.
 
 ## Reparto del trabajo
 
-| Integrante | Parte del proyecto |
-|---|---|
-| Santiago Herrera | Base de datos en MySQL: script de creación, tablas, llaves, restricciones y datos de prueba |
-| Santana James | Aplicación en Python: el CRUD de las 19 tablas y las consultas |
-| Mora Eduardo | Modelo entidad-relación, manual de usuario y pruebas de la aplicación |
+El proyecto lo hicimos entre los tres. Así nos repartimos las partes:
+
+| Integrante | GitHub | Lo que hizo |
+|---|---|---|
+| **Santiago Herrera** | [@santherr1espol](https://github.com/santherr1espol) | La base de datos en MySQL: el script de creación, las tablas, las llaves, las restricciones y los datos de prueba |
+| **Santana James** | [@Sxntmatii](https://github.com/Sxntmatii) | La aplicación en Python: el CRUD de las 19 tablas, las consultas y los procedimientos almacenados |
+| **Mora Eduardo** | [@Robimora](https://github.com/Robimora) | El modelo entidad-relación, el manual de usuario y las pruebas de la aplicación |
+
+En la pestaña de *Commits* se pueden ver los aportes de cada uno.
 
 ## Otros archivos
 
