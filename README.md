@@ -1,4 +1,4 @@
-# Estudio de Impresión 3D — Accesorios y Setups
+# Estudio de Impresión 3D - Accesorios y Setups
 
 Este es nuestro proyecto de la materia **Sistemas de Bases de Datos** de la ESPOL.
 

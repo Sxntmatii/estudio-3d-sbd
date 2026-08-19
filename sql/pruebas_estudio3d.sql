@@ -26,10 +26,12 @@ LIMIT 1;
 
 
 -- 1.2 El subtotal se vuelve a calcular al editar.
+--     Hay que haber corrido antes el 1.1, porque esto cambia la fila que se
+--     acaba de insertar (las de la 1 a la 10 son los datos de la base y no se tocan).
 --     Se cambia la cantidad a 10 y el subtotal debe pasar a 225.00
 UPDATE DETALLE_PEDIDO
 SET Cantidad = 10
-WHERE ID_Detalle = (SELECT MAX(ID_Detalle) FROM (SELECT ID_Detalle FROM DETALLE_PEDIDO) AS t);
+WHERE ID_Detalle > 10;
 
 SELECT ID_Detalle, Cantidad, Precio_Unitario, Subtotal
 FROM DETALLE_PEDIDO
@@ -115,8 +117,10 @@ SELECT COUNT(*) AS pedidos_despues FROM PEDIDO;   -- tiene que ser el mismo nume
 SHOW INDEX FROM PEDIDO;
 SHOW INDEX FROM ENCUESTA_SATISFACCION;
 
--- 4.2 Comprobar que el indice se usa.
---     En la columna 'key' debe aparecer idx_pedido_estado
+-- 4.2 Para ver si el indice de verdad se usa hay que poner EXPLAIN adelante del
+--     SELECT. Esto lo buscamos en la pagina de MySQL, porque en clase solo vimos
+--     como crear el indice.
+--     Si en la columna 'key' sale idx_pedido_estado es que si lo esta usando
 EXPLAIN SELECT * FROM PEDIDO WHERE Estado_Actual = 'Entregado';
 
 --     Aqui debe aparecer idx_producto_categoria
