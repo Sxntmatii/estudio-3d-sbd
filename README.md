@@ -25,15 +25,20 @@ La base la hicimos en MySQL y el programa que la maneja está en Python.
 
 **1. Crear la base de datos**
 
-En MySQL Workbench hay que abrir estos dos archivos y ejecutarlos en este orden:
+En MySQL Workbench se abre este archivo y se ejecuta:
 
 ```
-sql/avance-proyecto-sbd.sql
-sql/avance-proyecto-sbd-inserts.sql
+sql/schema_completo_estudio3d.sql
 ```
 
-El primero crea las 19 tablas y el segundo mete los datos. Al final queda la
-base `estudio3d` con 10 registros en cada tabla.
+Ese solo ya trae todo: las 19 tablas, los 10 registros de cada una, los triggers,
+los reportes, los procedimientos, los índices y los usuarios. Ojo que empieza
+borrando la base `estudio3d` si ya existe, así que queda limpia.
+
+Los archivos `sql/avance-proyecto-sbd.sql` y `sql/avance-proyecto-sbd-inserts.sql`
+son los del avance pasado (solo tablas y datos) y `sql/objetos_estudio3d.sql` es
+la parte nueva por separado. Los dejamos por si hay que ver algo suelto, pero para
+que la aplicación funcione hay que correr el completo.
 
 **2. Instalar el conector de MySQL para Python**
 
@@ -91,6 +96,34 @@ de la base, que son los que validan y manejan la transacción.
 | Procedimientos | 57 | Insertar, actualizar y eliminar en cada tabla, con transacción y validaciones |
 | Índices | 6 | En las columnas por las que más se busca |
 | Usuarios | 6 | Cada uno con permisos según su rol |
+
+## Usuarios de la base
+
+A los tres primeros les pusimos nuestros nombres, que son los que usamos
+nosotros para entrar. Los otros tres son los roles que ya teníamos en el modelo.
+
+| Usuario | Clave | Qué puede hacer |
+|---|---|---|
+| `santiago_herrera` | `Santiago_2026` | Todo sobre la base (es el administrador) |
+| `james_santana` | `James_2026` | CLIENTE y PEDIDO, la vista de pedidos y un procedimiento |
+| `eduardo_mora` | `Eduardo_2026` | ORDEN_IMPRESION y CONSUMO_MATERIAL, la vista de producción y un procedimiento |
+| `bodeguero01` | `Bode_2026` | MATERIAL y ENTRADA_MATERIAL, y la vista de consumo |
+| `despachador01` | `Desp_2026` | DESPACHO, la vista de entregas y un procedimiento |
+| `cliente_consulta` | `Clie_2026` | Solo cuatro columnas de PRODUCTO y la vista de entregas |
+
+Para ver los permisos de cualquiera:
+
+```sql
+SHOW GRANTS FOR 'james_santana'@'localhost';
+```
+
+## Para probar que todo funciona
+
+En `sql/pruebas_estudio3d.sql` dejamos las sentencias listas para copiar y pegar
+en Workbench. Están separadas por partes: los triggers, los cuatro reportes, los
+procedimientos con sus validaciones, la prueba del ROLLBACK, los `EXPLAIN` de los
+índices y los `SHOW GRANTS` de los usuarios. Al final hay una parte que borra lo
+que insertaron las pruebas, así la base queda como estaba.
 
 ## Tablas que salen de una relación de muchos a muchos
 

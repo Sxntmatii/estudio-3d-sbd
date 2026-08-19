@@ -1422,23 +1422,26 @@ DELIMITER ;
 -- 4) USUARIOS Y PERMISOS
 -- ###################################################################
 
-DROP USER IF EXISTS 'admin_estudio'@'localhost';
-CREATE USER 'admin_estudio'@'localhost' IDENTIFIED BY 'Admin_2026';
-GRANT ALL PRIVILEGES ON estudio3d.* TO 'admin_estudio'@'localhost' WITH GRANT OPTION;
+-- Santiago Herrera: hizo la base de datos, entra como administrador.
+DROP USER IF EXISTS 'santiago_herrera'@'localhost';
+CREATE USER 'santiago_herrera'@'localhost' IDENTIFIED BY 'Santiago_2026';
+GRANT ALL PRIVILEGES ON estudio3d.* TO 'santiago_herrera'@'localhost' WITH GRANT OPTION;
 
-DROP USER IF EXISTS 'vendedor01'@'localhost';
-CREATE USER 'vendedor01'@'localhost' IDENTIFIED BY 'Vend_2026';
-GRANT SELECT, INSERT, UPDATE ON estudio3d.CLIENTE TO 'vendedor01'@'localhost';
-GRANT SELECT, INSERT ON estudio3d.PEDIDO TO 'vendedor01'@'localhost';
-GRANT SELECT ON estudio3d.v_reporte_pedidos TO 'vendedor01'@'localhost';
-GRANT EXECUTE ON PROCEDURE estudio3d.sp_cliente_insertar TO 'vendedor01'@'localhost';
+-- Santana James: hizo la aplicacion, usa los permisos del programa.
+DROP USER IF EXISTS 'james_santana'@'localhost';
+CREATE USER 'james_santana'@'localhost' IDENTIFIED BY 'James_2026';
+GRANT SELECT, INSERT, UPDATE ON estudio3d.CLIENTE TO 'james_santana'@'localhost';
+GRANT SELECT, INSERT ON estudio3d.PEDIDO TO 'james_santana'@'localhost';
+GRANT SELECT ON estudio3d.v_reporte_pedidos TO 'james_santana'@'localhost';
+GRANT EXECUTE ON PROCEDURE estudio3d.sp_cliente_insertar TO 'james_santana'@'localhost';
 
-DROP USER IF EXISTS 'operador01'@'localhost';
-CREATE USER 'operador01'@'localhost' IDENTIFIED BY 'Oper_2026';
-GRANT SELECT, UPDATE ON estudio3d.ORDEN_IMPRESION TO 'operador01'@'localhost';
-GRANT SELECT, INSERT ON estudio3d.CONSUMO_MATERIAL TO 'operador01'@'localhost';
-GRANT SELECT ON estudio3d.v_reporte_produccion TO 'operador01'@'localhost';
-GRANT EXECUTE ON PROCEDURE estudio3d.sp_consumo_material_insertar TO 'operador01'@'localhost';
+-- Mora Eduardo: hizo el modelo y las pruebas, revisa produccion.
+DROP USER IF EXISTS 'eduardo_mora'@'localhost';
+CREATE USER 'eduardo_mora'@'localhost' IDENTIFIED BY 'Eduardo_2026';
+GRANT SELECT, UPDATE ON estudio3d.ORDEN_IMPRESION TO 'eduardo_mora'@'localhost';
+GRANT SELECT, INSERT ON estudio3d.CONSUMO_MATERIAL TO 'eduardo_mora'@'localhost';
+GRANT SELECT ON estudio3d.v_reporte_produccion TO 'eduardo_mora'@'localhost';
+GRANT EXECUTE ON PROCEDURE estudio3d.sp_consumo_material_insertar TO 'eduardo_mora'@'localhost';
 
 DROP USER IF EXISTS 'bodeguero01'@'localhost';
 CREATE USER 'bodeguero01'@'localhost' IDENTIFIED BY 'Bode_2026';
@@ -1458,6 +1461,7 @@ GRANT SELECT (Codigo_Producto, Nombre, Categoria, Precio) ON estudio3d.PRODUCTO 
 GRANT SELECT ON estudio3d.v_reporte_entregas TO 'cliente_consulta'@'localhost';
 
 FLUSH PRIVILEGES;
+
 
 
 -- ###################################################################
